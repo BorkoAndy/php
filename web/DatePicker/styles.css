@@ -84,7 +84,7 @@ body{
 
 .controls {
     display: grid;
-    grid-template-columns: 1ft auto 1ft;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
     & button {
         width: 32px;
@@ -168,7 +168,7 @@ body{
 
     & button {
         background-color: rgba(119, 136, 153, 0.1);
-        padding: .25rem, .5rem;
+        padding: 0.25rem 0.5rem;
 
         &.cancel {
             margin-left: auto;
