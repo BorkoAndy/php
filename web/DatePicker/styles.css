@@ -1,0 +1,182 @@
+* {
+    font-family: system-ui, sans-serif;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+:root {
+    --primary-color: blue;
+    --secondary-color: lightblue;
+    --third-color: slateblue;
+    /* --third-color: lightslategray; */
+    --background-color: #ccd2df;
+    --primary-text-color: #222;
+    --secondary-text-color: lightslategray;
+    --third-text-color: slategray;
+}
+
+body{
+    background-color: var(--background-color);
+    color: var(--primary-text-color);
+    padding: 2rem;
+}
+
+.datepicker {
+    border-radius: 4px;
+    position: relative;
+    max-width: 200px;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,.2);
+    &:focus-within{
+        border-color: var(--third-color);
+    }
+    &::after{
+        content: '';
+        width: 32px;
+        height: 32px;
+        background-color: var(--secondary-text-color);
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        inset-inline-end: 0;
+        mask: url('data:image/svg+xml, <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Zm280 240q-17 0-28.5-11.5T440-440q0-17 11.5-28.5T480-480q17 0 28.5 11.5T520-440q0 17-11.5 28.5T480-400Zm-160 0q-17 0-28.5-11.5T280-440q0-17 11.5-28.5T320-480q17 0 28.5 11.5T360-440q0 17-11.5 28.5T320-400Zm320 0q-17 0-28.5-11.5T600-440q0-17 11.5-28.5T640-480q17 0 28.5 11.5T680-440q0 17-11.5 28.5T640-400ZM480-240q-17 0-28.5-11.5T440-280q0-17 11.5-28.5T480-320q17 0 28.5 11.5T520-280q0 17-11.5 28.5T480-240Zm-160 0q-17 0-28.5-11.5T280-280q0-17 11.5-28.5T320-320q17 0 28.5 11.5T360-280q0 17-11.5 28.5T320-240Zm320 0q-17 0-28.5-11.5T600-280q0-17 11.5-28.5T640-320q17 0 28.5 11.5T680-280q0 17-11.5 28.5T640-240Z"/></svg>') no-repeat center / 60%;
+    }
+    & input {
+        border-radius: inherit;
+        border: none;
+        padding: .5rem 2rem .5rem 1rem;
+        font-size: 0.85rem;
+        width: 100%;
+    }
+    & input::placeholder {
+        color: var(--secondary-text-color);
+    }
+
+    & button {
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+        color: var(--third-text-color);
+        font-size: 0.85rem;
+    }
+}
+
+.calendar {
+    background-color: #fff;
+    position: absolute;
+    top: 100%;
+    margin-top: 8px;
+    z-index: 9999;
+    overflow: hidden;
+    padding: 1rem;
+    border-radius: inherit;
+    box-shadow: 0 2px 4px rgba(0,0,0,.2);
+    user-select: none;
+    text-align: center;
+    font-size: .85rem;
+}
+
+.calendar.calendar:not([hidden]){
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .5rem;
+}
+
+.controls {
+    display: grid;
+    grid-template-columns: 1ft auto 1ft;
+    align-items: center;
+    & button {
+        width: 32px;
+        height: 32px;
+        touch-action: manipulation;
+        &.prev {
+            justify-self: start;
+        }
+
+        &.next {
+            order: 1;
+            justify-self: end;
+        }
+    }
+
+    & strong.label{
+        grid-column: 2;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+}
+
+.days, 
+.dates {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-top: .5rem;
+    width: 220px;
+}
+
+.days {
+    font-weight: 600;
+}
+
+.dates span {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 4px;
+    color: var(--third-text-color);
+    
+    &.disabled{
+        color: rgba(112, 128, 144, 0.26);
+        pointer-events: none;
+    }
+    &.today {
+        background-color: rgba(105, 90, 205, 0.1);
+        color: var(--third-color)
+    }
+    &.range-start.range-end {
+        border-radius: 4px;
+    }
+    &.range-start {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        background-color: var(--third-color);
+        color: #fff;
+    }
+    &.range-end {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        background-color: var(--third-color);
+        color: #fff;
+    }
+    &.in-range {
+        border-radius: 0;
+        background-color: rgba(105, 90, 205, 0.2);
+    }
+    &:hover {
+        background-color: rgba(119, 136, 153, 0.1);
+    }
+}
+
+.action-menu {
+    grid-column: span 2;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    & button {
+        background-color: rgba(119, 136, 153, 0.1);
+        padding: .25rem, .5rem;
+
+        &.cancel {
+            margin-left: auto;
+        }
+        &.apply{
+            background-color: var(--third-color);
+            color: #fff;
+        }
+    }    
+}
+
