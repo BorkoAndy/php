@@ -1,21 +1,30 @@
+const dateStringFormat = 'ru';   //Change here to change the displayed format of date
+
+
 const datepicker = document.querySelector(".datepicker");
 const rangeInput = datepicker.querySelector('input');
 const calendarContainer = datepicker.querySelector(".calendar");
 const leftCalendar = datepicker.querySelector('.left-side');
 const rightCalendar = datepicker.querySelector('.right-side');
+const prevButton = datepicker.querySelector(".prev");
+const nextButton = datepicker.querySelector(".next");
+const selectionElement = datepicker.querySelector('.selection');
 
+
+let start = null;
+let end = null;
 
 let leftDate = new Date();
 let rightDate = new Date(leftDate);
 rightDate.setMonth(rightDate.getMonth()+1);
 
-calendarContainer.hidden = false;                                   //Test purpose -> delete in the end
+// calendarContainer.hidden = false;                                   //Test purpose -> delete in the end
 
 const formatDate = (date) => {                                          //Date format
     const y = date.getFullYear();
     const m = String(date.getMonth() + 1).padStart(2, '0');    
     const d = String(date.getDate()).padStart(2, '0');
-    return `${d}-${m}-${y}`;
+    return `${y}-${m}-${d}`;
 }
 
 
@@ -25,12 +34,88 @@ const createDateElement = (date, isDisabled, isToday) => {
     span.classList.toggle('disabled', isDisabled);
     if (!isDisabled) {
         span.classList.toggle("today", isToday);
+        span.setAttribute("data-date", formatDate(date));
     }
+
+    span.addEventListener('click', handleDateClick)
+    span.addEventListener('mouseover', handleDateMouseOver)
+
     return span;
 }
 
 
+const displaySelection = () => {
+    if(start && end) {
+        const startDate = start.toLocaleDateString(dateStringFormat);
+        const endDate = end.toLocaleDateString(dateStringFormat);
 
+        selectionElement.textContent = `${startDate} - ${endDate}`
+    }
+}
+
+
+
+const applyHightlighting = () => {
+    const dateElements = datepicker.querySelectorAll('span[data-date]');
+    for (const dateElement of dateElements){
+        dateElement.classList.remove('range-start', 'range-end', 'in-range');
+    }
+
+    if(start){
+        const startDate = formatDate(start);
+        const startElement = datepicker.querySelector(`span[data-date="${startDate}"]`);
+        if(startElement){
+            startElement.classList.add("range-start");
+            if(!end) startElement.classList.add("range-end");
+        }
+    }
+
+    if(end){
+        const endDate = formatDate(end);
+        const endElement = datepicker.querySelector(`span[data-date="${endDate}"]`);
+        if(endElement)
+            endElement.classList.add("range-start");
+    }
+
+    if(start && end) {
+        for (const dateElement of dateElements){
+            const date = new Date(dateElement.dataset.date);
+            if(date > start && date < end) {
+                dateElement.classList.add("in-range");
+            }
+        }
+    }
+}
+
+
+const handleDateMouseOver = (event) => {
+    const hoverElement = event.target;
+    if(start && !end){
+        applyHightlighting();
+        const hoverDate = new Date(hoverElement.dataset.date);
+        datepicker.querySelectorAll('span[data-date]').forEach((dateElement) => {
+            const date = new Date(dateElement.dataset.date);
+            if(date > start && date < hoverDate && start < hoverDate){
+                dateElement.classList.add("in-range");
+            }
+        })
+    }
+}
+
+const handleDateClick = (event) => {
+    const dateElement = event.target;
+    const selectedDate = new Date(dateElement.dataset.date);
+    if(!start || (start && end)){
+        start = selectedDate;
+        end = null;
+    }else if (selectedDate < start){
+        start = selectedDate;
+    }else{
+        end = selectedDate;
+    }
+    applyHightlighting();
+    displaySelection();
+}
 
 
 
@@ -61,12 +146,14 @@ const renderCalndar = (calendar, year, month) => {
     }
 
     datesContainer.appendChild(fragment);
+    applyHightlighting();
 };
 
 
-
-renderCalndar(leftCalendar, leftDate.getFullYear(), leftDate.getMonth());
-renderCalndar(rightCalendar, rightDate.getFullYear(), rightDate.getMonth());
+const updatCalendars = () => {
+    renderCalndar(leftCalendar, leftDate.getFullYear(), leftDate.getMonth());
+    renderCalndar(rightCalendar, rightDate.getFullYear(), rightDate.getMonth());
+};
 
 
 
@@ -81,3 +168,22 @@ document.addEventListener("click", (event) => {
         calendarContainer.hidden = true;
     }
 });
+
+// previous button navigation
+prevButton.addEventListener("click", () => {
+    leftDate.setMonth(leftDate.getMonth() - 1);
+    rightDate.setMonth(rightDate.getMonth() - 1);
+    updatCalendars();
+});
+
+// next button navigation
+nextButton.addEventListener("click", () => {
+    leftDate.setMonth(leftDate.getMonth() + 1);
+    rightDate.setMonth(rightDate.getMonth() + 1);
+    updatCalendars();
+})
+
+
+
+//initialize the datepicker
+updatCalendars();
