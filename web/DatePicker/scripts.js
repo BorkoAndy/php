@@ -1,6 +1,5 @@
 const dateStringFormat = 'ru';   //Change here to change the displayed format of date
 
-
 const datepicker = document.querySelector(".datepicker");
 const rangeInput = datepicker.querySelector('input');
 const calendarContainer = datepicker.querySelector(".calendar");
@@ -9,16 +8,22 @@ const rightCalendar = datepicker.querySelector('.right-side');
 const prevButton = datepicker.querySelector(".prev");
 const nextButton = datepicker.querySelector(".next");
 const selectionElement = datepicker.querySelector('.selection');
+const applyButton = datepicker.querySelector(".apply");
+const cancelButton = datepicker.querySelector(".cancel");
+
+
 
 
 let start = null;
 let end = null;
+let originalStart = null;
+let originalEnd = null;
 
 let leftDate = new Date();
+leftDate.setDate(1);
 let rightDate = new Date(leftDate);
 rightDate.setMonth(rightDate.getMonth()+1);
-
-// calendarContainer.hidden = false;                                   //Test purpose -> delete in the end
+                               
 
 const formatDate = (date) => {                                          //Date format
     const y = date.getFullYear();
@@ -41,7 +46,7 @@ const createDateElement = (date, isDisabled, isToday) => {
     span.addEventListener('mouseover', handleDateMouseOver)
 
     return span;
-}
+};
 
 
 const displaySelection = () => {
@@ -51,7 +56,7 @@ const displaySelection = () => {
 
         selectionElement.textContent = `${startDate} - ${endDate}`
     }
-}
+};
 
 
 
@@ -85,7 +90,7 @@ const applyHightlighting = () => {
             }
         }
     }
-}
+};
 
 
 const handleDateMouseOver = (event) => {
@@ -160,6 +165,8 @@ const updatCalendars = () => {
 
 
 rangeInput.addEventListener("focus", () => {
+    originalStart = start;
+    originalEnd = end;
     calendarContainer.hidden = false;
 })
 
@@ -183,7 +190,23 @@ nextButton.addEventListener("click", () => {
     updatCalendars();
 })
 
+applyButton.addEventListener('click', () => {
+      if(start && end) {
+        const startDate = start.toLocaleDateString(dateStringFormat);
+        const endDate = end.toLocaleDateString(dateStringFormat);
+        rangeInput.value = `${startDate} - ${endDate}`;
+        calendarContainer.hidden = true;
+    }
+}); 
 
+cancelButton.addEventListener('click', () => {
+    start = originalStart;
+    end = originalEnd;
+    applyHightlighting();
+    displaySelection();
+    calendarContainer.hidden = true;
+
+}); 
 
 //initialize the datepicker
 updatCalendars();
