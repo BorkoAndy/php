@@ -8,11 +8,14 @@ if(isset($_POST['submit'])){
     $email = $_POST['email'];
 
     //Instantiate SignupConttr class
-
-    include "../classes/signup.calsses.php/";
-    include "../classes/signup-contr.classes.php";
-    $signup - new SignupContr($uid, $pwd, $pwdrepeat, $email);
+    include "..\classes\dbh.classes.php";
+    include "..\classes\signup.classes.php";
+    require "..\classes\signup-contr.classes.php";
+    $signup = new SignupContr($uid, $pwd, $pwdrepeat, $email);
+    
     //Running error handlers and user signup
+    $signup->signupUser();
 
     //Going back to front page
+    header("location: ../index.php?error=none");
 }
