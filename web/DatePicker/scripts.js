@@ -13,7 +13,6 @@ const cancelButton = datepicker.querySelector(".cancel");
 
 
 
-
 let start = null;
 let end = null;
 let originalStart = null;
@@ -136,7 +135,8 @@ const renderCalndar = (calendar, year, month) => {
     datesContainer.innerHTML = '';
 
     const startDate = new Date(year, month, 1);
-    startDate.setDate(startDate.getDate() - startDate.getDay());
+    startDate.setDate(startDate.getDate() - startDate.getDay()-1);
+    console.log(startDate.getDate())
 
     const endDate = new Date(startDate);
     endDate.setDate(endDate.getDate() + 42);

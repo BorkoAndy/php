@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Andy's Booking tool</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="web\DatePicker\styles.css">
+    <script src="web\DatePicker\scripts.js" defer></script>
 </head>
 <body class="oswald-font">
     <div id="header">
@@ -30,7 +32,64 @@
     </div>
     <div id="container">
         <div id="left">Image</div>
-        <div id="center">Include</div><!--should include all other files-->
+        <div id="center">
+            <form action="" method="post">
+                <!-- Date Range Picker -->
+                <div class="datepicker">
+                    <input type="text" placeholder="Select date" readonly/>
+                    <div class="calendar" hidden>
+                        
+                        <div class="left-side">
+                        <div class="controls">
+                            <button class="prev"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/></svg></button>
+                            <strong class="label"></strong>
+                        </div>
+                        <div class="days">
+                            <span>Mo</span>
+                            <span>Di</span>
+                            <span>Mi</span>
+                            <span>Do</span>
+                            <span>Fr</span>
+                            <span>Sa</span>
+                            <span>So</span>
+                        </div>
+                        <div class="dates">
+                        </div>
+                    </div>
+
+                    
+                    <div class="right-side">
+                        <div class="controls">
+                            <button class="next"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/></svg></button>
+                            <strong class="label"></strong>
+                        </div>
+                        <div class="days">
+                            <span>Mo</span>
+                            <span>Di</span>
+                            <span>Mi</span>
+                            <span>Do</span>
+                            <span>Fr</span>
+                            <span>Sa</span>
+                            <span>So</span>
+                        </div>
+                        <div class="dates">
+                        </div>
+                    </div>
+
+                    <div class="action-menu">
+                        <span class="selection"></span>
+
+                        <button class="cancel">Cancel</button>
+                        <button class="apply">Apply</button>
+                    </div>
+                </div>
+                </div>
+                <!-- EndOf Date Range picker -->
+                 <input type="text" name="name">
+                 <input type="text" name="email">
+                 <button type="submit">Submit</button> 
+            </form>             
+        </div><!--should include all other files-->
         <div id="right">Image</div>
     </div> 
     <div id="footer">
