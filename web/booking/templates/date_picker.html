@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static %}
+    {% block title %}
+    Date Picker
+    {% endblock title %}
+
+    {% block head_import %}
+    <script src="{% static "js/date_picker_scripts.js" %}" defer></script>
+    <link rel="stylesheet" href="{% static "css/date_picker_styles.css" %}">
+    {% endblock head_import %}
+
+
+    {% block content %}
+   
+    <!-- Date Range Picker -->
+    <form action="choose_room" method="post" id="date_form">
+    {% csrf_token %} 
+    {{adult}}
+    <div class="datepicker">        
+        <input type="text" placeholder="Select date" readonly name="date_range"/>
+        <div class="calendar">
+            <div class="left-side">
+                <div class="controls">
+                    <button class="prev"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/></svg></button>
+                    <strong class="label"></strong>
+                </div>
+                <div class="days">
+                    <span>Mo</span>
+                    <span>Di</span>
+                    <span>Mi</span>
+                    <span>Do</span>
+                    <span>Fr</span>
+                    <span>Sa</span>
+                    <span>So</span>
+                </div>
+                <div class="dates">
+                </div>
+            </div>
+
+            
+            <div class="right-side">
+                <div class="controls">
+                    <button class="next"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/></svg></button>
+                    <strong class="label"></strong>
+                </div>
+                <div class="days">
+                    <span>Mo</span>
+                    <span>Di</span>
+                    <span>Mi</span>
+                    <span>Do</span>
+                    <span>Fr</span>
+                    <span>Sa</span>
+                    <span>So</span>
+                </div>
+                <div class="dates">
+                </div>
+            </div>
+
+            <div class="action-menu">
+                <span class="selection"></span>
+
+                <button class="cancel" type="reset">Cancel</button>
+                <button class="apply">Apply</button>
+            </div>
+        </div>
+    </div>
+</form>
+    <!-- EndOf Date Range picker -->
+     {% endblock content %}
+ 

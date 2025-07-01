@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+{{request.POST}}
+<input type="radio" id="1" name="room_chosen" value="1">
+<label for="1">1</label><br>
+<input type="radio" id="2" name="room_chosen" value="2">
+<label for="2">2</label><br>
+<input type="radio" id="3" name="room_chosen" value="3">
+<label for="3t">3</label>
+
+{% endblock content %}

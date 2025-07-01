@@ -1,0 +1,60 @@
+:root {
+  --primary: antiquewhite;
+  --white: #ffffff;
+}
+
+
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Permanent+Marker&display=swap');
+
+.oswald-font {
+  font-family: "Oswald", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+body{
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
+#header {
+    padding: 10px;
+    background-color: var(--primary);
+    height: 5rem;
+    display: flex;
+    justify-content: space-between;
+    &>div{
+        text-align: end;
+        width: 20%;
+    }
+    & #small_logo img{
+        max-width: 200px;
+        width: 100%;
+    }
+
+}
+
+#container{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#footer {
+    background-color: var(--primary);
+    height: 3rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    position: fixed;
+    bottom: 0;
+    & img{
+        position: absolute;    
+        bottom: 0;
+        max-width: 100px;
+        width: 100%;
+    }
+}
