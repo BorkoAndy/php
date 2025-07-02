@@ -1,7 +1,6 @@
 <?php
 
 class Dbh {
-
     protected function connect () {
         try {
             $username = 'root';
@@ -14,8 +13,4 @@ class Dbh {
             die();
         }
     }
-
-
-
-
 }
