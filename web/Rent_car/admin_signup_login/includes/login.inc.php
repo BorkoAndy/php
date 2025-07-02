@@ -17,5 +17,5 @@ if(isset($_POST['submit'])){
     $login->loginUser();
 
     //Going back to front page
-    header("location: ../index.php?error=none&userloggedin=true");
+    header("location: \Rent_car\pages\admin_panel.php?error=none&userloggedin=true");
 }

@@ -224,6 +224,8 @@
       <a href="#">Instagram</a>
       <a href="#">Twitter</a>
     </p>
+    <a href="\Rent_car\admin_signup_login\index.php">admin entry</a>
+    
   </footer>
 </body>
 </html>
