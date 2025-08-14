@@ -50,10 +50,15 @@ const createDateElement = (date, isDisabled, isToday) => {
 
 const displaySelection = () => {
     if(start && end) {
+        // const startDate = start.toLocaleDateString(dateStringFormat);
+        // const endDate = end.toLocaleDateString(dateStringFormat);
+
+        // selectionElement.textContent = `${startDate} - ${endDate}`
+
         const startDate = start.toLocaleDateString(dateStringFormat);
         const endDate = end.toLocaleDateString(dateStringFormat);
-
-        selectionElement.textContent = `${startDate} - ${endDate}`
+        rangeInput.value = `${startDate} - ${endDate}`;
+        calendarContainer.hidden = true;
     }
 };
 

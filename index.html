@@ -7,8 +7,11 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="web\DatePicker\styles.css">
     <script src="web\DatePicker\scripts.js" defer></script>
+    <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+
 </head>
 <body class="oswald-font">
+    
     <div id="header">
         <div id="small_logo">
             <img src="resources/img/logo-placeholder-image.png" alt="" srcset="">
@@ -97,5 +100,22 @@
         <div id="center-footer"><img src="resources/img/logo-placeholder-image-modified.png" alt="" srcset=""></div>
         <div id="right-footer">Copyright</div>
     </div>
+    <script src="https://www.sinapsi.org/public/ruffle/ruffle.js"></script>
+<object width="750" height="550">
+    <param name="movie" value="https://www.sinapsi.org/public/espressione01.swf">
+    <embed src="https://www.sinapsi.org/public/espressione01.swf">
+    </embed>
+</object>
+    <script>
+    window.RufflePlayer = window.RufflePlayer || {};
+    window.addEventListener("DOMContentLoaded", () => {
+      const ruffle = window.RufflePlayer.newest();
+      const container = document.getElementById("flash-container");
+      const player = ruffle.createPlayer();
+      container.innerHTML = "";
+      container.appendChild(player);
+      player.load("oben2_bio.swf");
+    });
+  </script>
 </body>
 </html>
