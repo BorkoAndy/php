@@ -123,5 +123,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </form>
         <a href="calendar.php">Calendar</a>
    </div>
+
+   <script>
+
+   </script>
 </body>
 </html>
