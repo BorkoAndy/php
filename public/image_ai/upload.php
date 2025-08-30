@@ -12,28 +12,28 @@ if(isset($_FILES['image'])){
     if(!in_array($file['type'], $allowedTypes)){
         die(json_encode(['error' => 'Invalid file type']));
     }
-    if($file['size'] > 5 * 1024 * 1024){
+    if($file['size'] > 5 * 10096 * 10096){
         die(json_encode(['error' => 'File too large']));
     }
     header('Content-Type: application/json'); // tell browser this is JSON
 
-    $apiUrl = "https://localhost:5000/api/Image/upload"; // replace with your local IP
-
+    // $apiUrl = "https://andywebapi.azurewebsites.net/vision/analyze"; // replace with your local IP
+    $apiUrl = "http://localhost:5000/vision/analyze";
     if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
         $filePath = $_FILES['image']['tmp_name'];
         $fileName = $_FILES['image']['name'];
-
+        // die($fileName);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $apiUrl);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, [
-            'file' => new CURLFile($filePath, mime_content_type($filePath), $fileName)
+            'image' => new CURLFile($filePath, mime_content_type($filePath), $fileName)
         ]);
-
+        
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // local HTTPS only
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-
+        
         $response = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
