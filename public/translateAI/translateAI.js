@@ -1,54 +1,89 @@
-const targetLang = 'EN'; // Change to 'EN' or other language codes
-// const proxyUrl = 'http://php.local/translateAI/deepl-proxy.php';
+const deeplLang = 'EN'; // Target language for DeepL
+const googleLang = 'en'; // Target language for Google
 const proxyUrl = 'https://www.netcontact.at/API/Translate/deepl-proxy.php';
 
-// Function to translate a single element
-function translateElement(el) {
-  el.childNodes.forEach(node => {
-    if (node.nodeType === Node.TEXT_NODE) {
-      const originalText = node.textContent.trim();
-      console.log('Translating:', originalText);
-      if (!originalText) return;
+// Translate using DeepL
+function translateWithDeepL() {
+  const elements = document.querySelectorAll('p, h1, h2, h3, h4, h5, h6, span, strong, li, a, div');
+  elements.forEach(el => {
+    el.childNodes.forEach(node => {
+      if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
+        const originalText = node.textContent.trim();
+        const body = `text=${encodeURIComponent(originalText)}&target_lang=${deeplLang}`;
 
-      const body = `text=${encodeURIComponent(originalText)}&target_lang=${targetLang}`;
-
-      fetch(proxyUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: body
-      })
-        .then(res => res.text()) // First get raw text
+        fetch(proxyUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: body
+        })
+        .then(res => res.text())
         .then(raw => {
           try {
             const data = JSON.parse(raw);
             if (data.translations && data.translations[0]) {
               node.textContent = data.translations[0].text;
-            } else {
-              console.error('Translation error:', data.error || 'No translation found');
             }
           } catch (err) {
-            console.error('Invalid JSON:', raw);
+            console.error('DeepL JSON error:', raw);
           }
         })
-        .catch(err => console.error('Fetch failed:', err));
-    }
+        .catch(err => console.error('DeepL failed:', err));
+      }
+    });
   });
 }
 
-// Scan and translate all paragraphs and headings
-function translatePage() {
+// Translate using Google (unofficial method)
+function translateWithGoogle() {
   const elements = document.querySelectorAll('p, h1, h2, h3, h4, h5, h6, span, strong, li, a, div');
-  elements.forEach(el => translateElement(el));
+  elements.forEach(el => {
+    el.childNodes.forEach(node => {
+      if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
+        const originalText = node.textContent.trim();
+        const googleUrl = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${googleLang}&dt=t&q=${encodeURIComponent(originalText)}`;
+
+        fetch(googleUrl)
+        .then(res => res.json())
+        .then(data => {
+          if (Array.isArray(data) && data[0] && data[0][0]) {
+            node.textContent = data[0][0][0];
+          }
+        })
+        .catch(err => console.error('Google failed:', err));
+      }
+    });
+  });
 }
 
-// Optional: Add a button or icon to trigger translation
+// Add both buttons to the page
 document.addEventListener('DOMContentLoaded', () => {
-  const switcher = document.createElement('button');
-  switcher.innerText = 'Translate';
-  switcher.style.position = 'fixed';
-  switcher.style.bottom = '20px';
-  switcher.style.right = '20px';
-  switcher.style.zIndex = '9999';
-  switcher.onclick = translatePage;
-  document.body.appendChild(switcher);
+  const container = document.createElement('div');
+  container.style.position = 'fixed';
+  container.style.bottom = '20px';
+  container.style.right = '20px';
+  container.style.zIndex = '9999';
+  container.style.display = 'flex';
+  container.style.gap = '10px';
+
+  const deepLBtn = document.createElement('button');
+  deepLBtn.innerText = 'DeepL Translate';
+  deepLBtn.style.padding = '10px';
+  deepLBtn.style.backgroundColor = '#0078D4';
+  deepLBtn.style.color = '#fff';
+  deepLBtn.style.border = 'none';
+  deepLBtn.style.borderRadius = '5px';
+  deepLBtn.onclick = translateWithDeepL;
+
+  const googleBtn = document.createElement('button');
+  googleBtn.innerText = 'Google Translate';
+  googleBtn.style.padding = '10px';
+  googleBtn.style.backgroundColor = '#34A853';
+  googleBtn.style.color = '#fff';
+  googleBtn.style.border = 'none';
+  googleBtn.style.borderRadius = '5px';
+  googleBtn.onclick = translateWithGoogle;
+
+  container.appendChild(deepLBtn);
+  container.appendChild(googleBtn);
+  document.body.appendChild(container);
 });
