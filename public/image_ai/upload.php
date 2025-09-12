@@ -17,8 +17,8 @@ if(isset($_FILES['image'])){
     }
     header('Content-Type: application/json'); // tell browser this is JSON
 
-    // $apiUrl = "https://andywebapi.azurewebsites.net/vision/analyze"; // replace with your local IP
-    $apiUrl = "http://localhost:5000/vision/analyze";
+    $apiUrl = "https://andywebapi.azurewebsites.net/vision/analyze-seo"; // replace with your local IP
+    // $apiUrl = "http://localhost:5000/vision/analyze";
     if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
         $filePath = $_FILES['image']['tmp_name'];
         $fileName = $_FILES['image']['name'];
