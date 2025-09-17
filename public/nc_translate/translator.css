@@ -1,0 +1,36 @@
+.translator-widget {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+.lang-btn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 5px 10px;
+  font-weight: bold;
+  font-size: 14px;
+  color: #333;
+  border-radius: 4px;
+  transition: transform 0.2s ease;
+}
+
+.lang-btn:hover {
+  transform: scale(1.1);
+  background-color: #eee;
+}
+
+.lang-btn img {
+  width: 32px;
+  height: 24px;
+  border-radius: 4px;
+  box-shadow: 0 0 2px rgba(0,0,0,0.3);
+}
