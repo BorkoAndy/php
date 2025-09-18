@@ -5,6 +5,7 @@
   const layout = config.layout || 'row';      // 'row' or 'select'
   const langs = Array.isArray(config.langs) ? config.langs : [];
   const icon_set = config.icon_set+'/' || ''; 
+  const flag_path = 'https://www.netcontact.at/API/Translate/flags/';
 
   function initTranslatorWidget(mode) {
   const container = document.getElementById('translator-container');
@@ -13,9 +14,13 @@
   container.className = 'translator-widget';
 
   if (layout === 'select') {
+    let currentLang = langs[0]; // Default to first language
+
     const selected = document.createElement('div');
     selected.className = 'translator-selected';
-    selected.textContent = 'Select language';
+    selected.innerHTML = mode === 'flags'
+      ? `<img src="${flag_path}${icon_set}${currentLang.flag}" alt="${currentLang.label}"> ${currentLang.label}`
+      : currentLang.label;
 
     const optionsList = document.createElement('ul');
     optionsList.className = 'translator-options';
@@ -25,13 +30,16 @@
       li.dataset.lang = lang.code;
       li.onclick = () => {
         translateWithGoogle(lang.code);
-        selected.textContent = lang.label;
+        currentLang = lang;
+        selected.innerHTML = mode === 'flags'
+          ? `<img src="${flag_path}${icon_set}${lang.flag}" alt="${lang.label}"> ${lang.label}`
+          : lang.label;
         optionsList.style.display = 'none';
       };
 
       if (mode === 'flags') {
         const img = document.createElement('img');
-        img.src = `https://www.netcontact.at/API/Translate/flags/${icon_set}${lang.flag}`;
+        img.src = `${flag_path}${icon_set}${lang.flag}`;
         img.alt = lang.label;
         li.appendChild(img);
       }
@@ -58,7 +66,7 @@
 
       if (mode === 'flags') {
         const img = document.createElement('img');
-        img.src = `https://www.netcontact.at/API/Translate/flags/${icon_set}${lang.flag}`;
+        img.src = `${flag_path}${icon_set}${lang.flag}`;
         img.alt = lang.label;
         btn.appendChild(img);
       } else {

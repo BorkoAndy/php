@@ -3,7 +3,7 @@ $currentDomain = $_SERVER['HTTP_HOST'];
 $scriptKey = 'b8zWThA1p10IlFWo0WPcII9YaDarfe42tXkrh4jcX1B8L8hQbgkZHv5TDlvtMowi'; // You can set this dynamically
 $useFlags = true;      // true for flags or false for label mode
 $selected_list = false; // true = use selected list of options or false = row
-$languages = ['en', 'de', 'fr', 'nl', 'it', 'ua', 'ru']; //Language codes
+$languages = ['en', 'de', 'fr', 'nl', 'it', 'ru']; //Language codes
 $icon_set = 'w40'; // '' for waved icons; 'w40' for same width original icons
 
 $postData = [
