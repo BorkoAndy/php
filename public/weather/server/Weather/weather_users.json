@@ -1,0 +1,38 @@
+{
+    "template" :{        
+        "domain":"",
+        "nc_token":"",
+        "latitude":"",
+        "longitude":""
+    },
+    "0" :{        
+        "domain":"https://www.auszeit-xl.at/",
+        "nc_token":"OhIkhCrLXP6HWk2fdS4vgss35L7xJPf9LPTjdix0WMqaa7fBjflSUx05eMQUzLuHxfvv2sqJqXvDLwwo13tD",
+        "latitude":"47.14205258129994",
+        "longitude":"13.662617123487077"
+    },
+    "1" :{        
+        "domain":"https://www.bellevue-walchsee.at/",
+        "nc_token":"s4IiJmsxLZwMoF8yL9G32Stq21DmEdKpE28aqruFCiVUlIPFC6Mb8mGUT006XSlWp0hc3jEs9ZdOOHQm62dC",
+        "latitude":"47.650964010194805",
+        "longitude":"12.321436283690051"
+    },
+    "2" :{        
+        "domain":"https://katschberg.at/de/",
+        "nc_token":"sCSRL2zetyMP7SOIFwh90YGKg0K1peJefp3D5auMFvQoLaJu185FwejKlhresSqc2h6OoZTQI3baGyc8Xb9M",
+        "latitude":"47.05779065395669",
+        "longitude":"13.614443668211736"
+    },
+    "3" :{        
+        "domain":"https://www.grosseck-speiereck.at/",
+        "nc_token":"Y8cWXMiyo9cEh3gebDHhQM1PptBv360qzzfi3hvCrU9Ka9kFMPg0GRx7MwZb7cLVxidLlb9iUMDGFCWFxBMw",
+        "latitude":"47.13023747870232",
+        "longitude":"13.64633524981643"
+    },
+    "4" :{        
+        "domain":"https://www.obertauern-webcam.de/",
+        "nc_token":"SpPIzm9hw5iFZ8lK4EQCkIPvdcp3yGy7TKTB59FVF3UXq4I8fGQVY8tgBwOXj4QM",
+        "latitude":"47.248747498607024",
+        "longitude":"13.557168259939111"
+    }
+}

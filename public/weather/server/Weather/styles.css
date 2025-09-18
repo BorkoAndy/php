@@ -1,0 +1,89 @@
+.table {
+    width: 100%;    
+}
+
+.small_res {
+    display: none;
+}
+
+.wt-header {
+    width: 100%;
+    background-color: #7f9aa1;
+    border: 3px white solid;
+    color: #f2f2f2;    
+    text-align: left;
+    text-transform: uppercase;
+    flex-wrap: nowrap;
+
+}
+
+#weather-table img{
+    filter: drop-shadow(10px 10px 22px rgba(60, 143, 168, 0.6));
+}
+
+tr:not(.wt-header) {
+    background-color: #f2f2f2;
+    color: #795F0C;
+    flex-wrap: wrap;
+}
+
+.d-flex {
+    display: flex;
+    flex-direction: column;
+}
+
+.d-flex>div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0px 10px 0px 10px;
+}
+
+.description {
+    padding-left: 25px;
+    color: #795F0C;
+    font: 27px Source Serif Pro;
+    ;
+}
+
+.s-description {
+    width: 100%;
+}
+
+.weather_detail,
+.wt-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+}
+.weather_detail div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.row {
+    margin-bottom: 30px;
+}
+
+@media (max-width: 767px) {
+    .description {
+        /* display: none; */
+    }
+
+    .small_res {
+        display: block;
+    }
+
+    .d-flex>div {
+        display: flex;
+        flex-direction: column;
+    }
+
+    table {
+        background-color: #f2f2f2;
+        width: 95%
+    }
+}

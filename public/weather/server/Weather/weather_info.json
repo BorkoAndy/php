@@ -1,0 +1,527 @@
+{
+    "// Find english words for weather codes":"// Find all pictures",
+    
+    
+    "template":{		
+		"day":{
+			"description":{
+				"de":"",
+				"en": ""
+			},
+			"image":"",
+			"font": ""
+		},
+		"night":{
+			"description":{
+				"de":"",
+				"en": ""
+			},
+			"image":"",
+            "font":""
+		}
+	},
+	"0":{
+		"day":{
+			"description":{
+				"de":"Sonnig",
+				"en": "Sunny"
+			},
+			"image":"A.png",
+			"font": "wi-day-sunny"
+		},
+		"night":{
+			"description":{
+				"de":"Klar",
+				"en": "Clear"
+			},
+			"image":"-.png",
+            "font":"wi-night-clear"
+		}
+	},
+	"1":{
+		"day":{
+			"description":{
+				"de":"Hauptsächlich sonnig",
+				"en": "Mostly Clear"
+			},
+			"image":"B.png",
+			"font": "wi-day-sunny-overcast"
+		},
+		"night":{
+			"description":{
+				"de":"Hauptsächlich klar",
+				"en": "Mostly Clear"
+			},
+			"image":"-.png",
+            "font":"wi-night-alt-partly-cloudy"
+		}
+	},
+	"2":{
+		"day":{
+			"description":{
+				"de":"Teilweise bewölkt",
+				"en": "Partly Cloudy"
+			},
+			"image":"C.png",
+			"font": "wi-day-cloudy"
+		},
+		"night":{
+			"description":{
+				"de":"Teilweise bewölkt",
+				"en": "Partly Cloudy"
+			},
+			"image":"",
+            "font":"wi-night-alt-cloudy"
+		}
+	},
+	"3":{
+		"day":{
+			"description":{
+				"de":"Wolkig",
+				"en": "Cloudy"
+			},
+			"image":"E.png",
+			"font": "wi-cloudy"
+		},
+		"night":{
+			"description":{
+				"de":"Wolkig",
+				"en": "Cloudy"
+			},
+			"image":"E.png",
+            "font":"wi-cloudy"
+		}
+	},
+	"45":{
+		"day":{
+			"description":{
+				"de":"Nebelig",
+				"en": "Foggy"
+			},
+			"image":"T.png",
+			"font": "wi-day-fog"
+		},
+		"night":{
+			"description":{
+				"de":"Nebelig",
+				"en": "Foggy"
+			},
+			"image":"T.png",
+            "font":"wi-night-fog"
+		}
+	},
+	"48":{
+		"day":{
+			"description":{
+				"de":"Raureifnebel",
+				"en": "Rime fog"
+			},
+			"image":"T.png",
+			"font": "wi-fog"
+		},
+		"night":{
+			"description":{
+				"de":"Raureifnebel",
+				"en": "Rimw fog"
+			},
+			"image":"T.png",
+            "font":"wi-fog"
+		}
+	},
+	"51":{
+		"day":{
+			"description":{
+				"de":"Leichter Nieselregen",
+				"en": "Drizzle"
+			},
+			"image":"R.png",
+			"font": "wi-sleet"
+		},
+		"night":{
+			"description":{
+				"de":"Leichter Nieselregen",
+				"en": "Drizzle"
+			},
+			"image":"R.png",
+            "font":"wi-sleet"
+		}
+	},
+	"53":{
+		"day":{
+			"description":{
+				"de":"Nieselregen",
+				"en": "Drizzle"
+			},
+			"image":"T.png",
+			"font": "wi-rain"
+		},
+		"night":{
+			"description":{
+				"de":"Nieselregen",
+				"en": "Drizzle"
+			},
+			"image":"T.png",
+            "font":"wi-rain"
+		}
+	},
+	"55":{
+		"day":{
+			"description":{
+				"de":"Starker Nieselregen",
+				"en": "Drizzle"
+			},
+			"image":"R.png",
+			"font": "wi-rain-wind"
+		},
+		"night":{
+			"description":{
+				"de":"Starker Nieselregen",
+				"en": "Drizzle"
+			},
+			"image":"R.png",
+            "font":"wi-rain-wind"
+		}
+	},
+	"56":{
+		"day":{
+			"description":{
+				"de":"Leichter eiskalter Nieselregen",
+				"en": "Ice-cold drizzle"
+			},
+			"image":"R.png",
+			"font": "wi-rain-mix"
+		},
+		"night":{
+			"description":{
+				"de":"Leichter eiskalter Nieselregen",
+				"en": "Ice-cold drizzle"
+			},
+			"image":"R.png",
+            "font":"wi-rain-mix"
+		}
+	},
+	"57":{
+		"day":{
+			"description":{
+				"de":"Eisiger Nieselregen",
+				"en": "Ice-cold drizzle"
+			},
+			"image":"R.png",
+			"font": "wi-rain-mix"
+		},
+		"night":{
+			"description":{
+				"de":"Eisiger Nieselregen",
+				"en": "Ice-cold drizzle"
+			},
+			"image":"R.png",
+            "font":"wi-rain-mix"
+		}
+	},
+	"61":{
+		"day":{
+			"description":{
+				"de":"Leichter Regen",
+				"en": "Light rain"
+			},
+			"image":"J.png",
+			"font": "wi-day-rain"
+		},
+		"night":{
+			"description":{
+				"de":"Leichter Regen",
+				"en": "Light rain"
+			},
+			"image":"J.png",
+            "font":"wi-night-alt-rain"
+		}
+	},
+	"63":{
+		"day":{
+			"description":{
+				"de":"Regen",
+				"en": "Rain"
+			},
+			"image":"H.png",
+			"font": "wi-day-rain"
+		},
+		"night":{
+			"description":{
+				"de":"Regen",
+				"en": "Rain"
+			},
+			"image":"H.png",
+            "font":"wi-night-alt-rain-wind"
+		}
+	},
+	"65":{
+		"day":{
+			"description":{
+				"de":"Starker Regen",
+				"en": "Heavy rain"
+			},
+			"image":"I.png",
+			"font": "wi-day-rain"
+		},
+		"night":{
+			"description":{
+				"de":"Starker Regen",
+				"en": "Heavy rain"
+			},
+			"image":"I.png",
+            "font":"wi-night-alt-rain-wind"
+		}
+	},
+	"66":{
+		"day":{
+			"description":{
+				"de":"Leichter Eisregen",
+				"en": "Light freezing rain"
+			},
+			"image":"http://openweathermap.org/img/wn/10d@2x.png",
+			"font": ""
+		},
+		"night":{
+			"description":{
+				"de":"Leichter Eisregen",
+				"en": "Light freezing rain"
+			},
+			"image":"http://openweathermap.org/img/wn/10n@2x.png",
+            "font":""
+		}
+	},
+	"67":{
+		"day":{
+			"description":{
+				"de":"Eisiger Regen",
+				"en": "Freezing rain"
+			},
+			"image":"http://openweathermap.org/img/wn/10d@2x.png",
+			"font": ""
+		},
+		"night":{
+			"description":{
+				"de":"Eisiger Regen",
+				"en": "Freezing rain"
+			},
+			"image":"http://openweathermap.org/img/wn/10d@2x.png",
+            "font":""
+		}
+	},
+	"71":{
+		"day":{
+			"description":{
+				"de":"Leichter Schnee",
+				"en": "Light snow"
+			},
+			"image":"N.png",
+			"font": "wi-day-snow"
+		},
+		"night":{
+			"description":{
+				"de":"Leichter Schnee",
+				"en": "Light snow"
+			},
+			"image":"N.png",
+            "font":"wi-night-snow"
+		}
+	},
+	"73":{
+		"day":{
+			"description":{
+				"de":"Schnee",
+				"en": "Snowing"
+			},
+			"image":"O.png",
+			"font": "wi-day-snow"
+		},
+		"night":{
+			"description":{
+				"de":"Schnee",
+				"en": "Snowing"
+			},
+			"image":"O.png",
+            "font":"wi-night-snow"
+		}
+	},
+	"75":{
+		"day":{
+			"description":{
+				"de":"Starker Schneefall",
+				"en": "Heavy snowing"
+			},
+			"image":"P.png",
+			"font": "wi-day-snow"
+		},
+		"night":{
+			"description":{
+				"de":"Starker Schneefall",
+				"en": "Heavy snowing"
+			},
+			"image":"P.png",
+            "font":"wi-night-snow"
+		}
+	},
+	"77":{
+		"day":{
+			"description":{
+				"de":"Schneekörner",
+				"en": "Snow grains"
+			},
+			"image":"P.png",
+			"font": "wi-day-snow"
+		},
+		"night":{
+			"description":{
+				"de":"Schneekörner",
+				"en": "Snow grains"
+			},
+			"image":"P.png",
+            "font":"wi-night-snow"
+		}
+	},
+	"80":{
+		"day":{
+			"description":{
+				"de":"Leichte Schauer",
+				"en": "Light showers"
+			},
+			"image":"J.png",
+			"font": "wi-showers"
+		},
+		"night":{
+			"description":{
+				"de":"Leichte Schauer",
+				"en": "Light showers"
+			},
+			"image":"J.png",
+            "font":"wi-showers"
+		}
+	},
+	"81":{
+		"day":{
+			"description":{
+				"de":"Schauer",
+				"en": "Showers"
+			},
+			"image":"H.png",
+			"font": "wi-showers"
+		},
+		"night":{
+			"description":{
+				"de":"Schauer",
+				"en": "Showers"
+			},
+			"image":"H.png",
+            "font":"wi-showers"
+		}
+	},
+	"82":{
+		"day":{
+			"description":{
+				"de":"Starke Schauer",
+				"en": "Heavy showers"
+			},
+			"image":"H.png",
+			"font": "wi-showers"
+		},
+		"night":{
+			"description":{
+				"de":"tarke Schauer",
+				"en": "Heavy showers"
+			},
+			"image":"H.png",
+            "font":"wi-showers"
+		}
+	},
+	"85":{
+		"day":{
+			"description":{
+				"de":"Leichte Schneeschauer",
+				"en": "Light snow showers"
+			},
+			"image":"N.png",
+			"font": "wi-snow"
+		},
+		"night":{
+			"description":{
+				"de":"Leichte Schneeschauer",
+				"en": "Light snow showers"
+			},
+			"image":"N.png",
+            "font":"wi-snow"
+		}
+	},
+	"86":{
+		"day":{
+			"description":{
+				"de":"Schneeschauer",
+				"en": "Snow showers"
+			},
+			"image":"O.png",
+			"font": "wi-snow"
+		},
+		"night":{
+			"description":{
+				"de":"Schneeschauer",
+				"en": "Snow showers"
+			},
+			"image":"O.png",
+            "font":"wi-snow"
+		}
+	},
+	"95":{
+		"day":{
+			"description":{
+				"de":"Gewitter",
+				"en": "Thunderstorm"
+			},
+			"image":"U.png",
+			"font": "wi-thunderstorm"
+		},
+		"night":{
+			"description":{
+				"de":"Gewitter",
+				"en": "Thunderstorm"
+			},
+			"image":"U.png",
+            "font":"wi-thunderstorm"
+		}
+	},
+	"96":{
+		"day":{
+			"description":{
+				"de":"Leichte Gewitter mit Hagel",
+				"en": "Light thunderstorms with hail"
+			},
+			"image":"V.png",
+			"font": "wi-day-thunderstorm"
+		},
+		"night":{
+			"description":{
+				"de":"Leichte Gewitter mit Hagel",
+				"en": "Light thunderstorms with hail"
+			},
+			"image":"V.png",
+            "font":"wi-thunderstorm"
+		}
+	},
+	"99":{
+		"day":{
+			"description":{
+				"de":"Gewitter mit Hagel",
+				"en": "Thunderstorm with hail"
+			},
+			"image":"Z.png",
+			"font": "wi-day-thunderstorm"
+		},
+		"night":{
+			"description":{
+				"de":"Gewitter mit Hagel",
+				"en": "Thunderstorm with hail"
+			},
+			"image":"Z.png",
+            "font":"wi-thunderstorm"
+		}
+	}
+}
