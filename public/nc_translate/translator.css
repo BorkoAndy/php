@@ -1,36 +1,50 @@
+/* Container */
 .translator-widget {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 9999;
-  display: flex;
-  gap: 8px;
-  background: rgba(255, 255, 255, 0.95);
-  padding: 10px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  position: relative;
+  display: inline-block;
+  font-family: sans-serif;
 }
 
-.lang-btn {
-  border: none;
-  background: none;
+/* Selected item */
+.translator-selected {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
   cursor: pointer;
-  padding: 5px 10px;
-  font-weight: bold;
-  font-size: 14px;
-  color: #333;
-  border-radius: 4px;
-  transition: transform 0.2s ease;
+  background-color: #fff;
+  min-width: 150px;
 }
 
-.lang-btn:hover {
-  transform: scale(1.1);
-  background-color: #eee;
+/* Dropdown list */
+.translator-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  display: none;
+  max-height: 200px;
+  overflow-y: auto;
+  width: 100%;
 }
 
-.lang-btn img {
-  width: 32px;
-  height: 24px;
-  border-radius: 4px;
-  box-shadow: 0 0 2px rgba(0,0,0,0.3);
+/* Each option */
+.translator-options li {
+  width: min-content;
+  list-style: none;
+  padding: 6px 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.translator-options li:hover {
+  background-color: #f0f0f0;
+}
+
+/* Flag image */
+.translator-options img {
+  width: 24px;
+  height: auto;
+  margin-right: 8px;
 }

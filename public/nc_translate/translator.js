@@ -1,50 +1,55 @@
 (function () {
-const params = new URLSearchParams(window.location.search);
-const scriptKey = window.translatorConfig?.key || new URLSearchParams(window.location.search).get('key') || null;
-const displayMode = window.translatorConfig?.mode || new URLSearchParams(window.location.search).get('mode') || 'flags';
-//   const currentDomain = window.location.hostname;
-// console.log(`🌐 Current domain: ${currentDomain}`);
-// console.log(`🔑 Script key: ${scriptKey}`);
-  // 🔒 Hardcoded auth data for testing
-  const link = document.createElement('link');
-  link.rel = 'stylesheet';
-  link.type = 'text/css';
-  link.href = "https://www.netcontact.at/API/Translate/translator.css";
-  document.head.appendChild(link);
+  const config = window.translatorConfig || {};
+  const scriptKey = config.key || null;
+  const displayMode = config.mode || 'labels'; // 'flags' or 'labels'
+  const layout = config.layout || 'row';      // 'row' or 'select'
+  const langs = Array.isArray(config.langs) ? config.langs : [];
+  const icon_set = config.icon_set+'/' || ''; 
 
-// fetch('https://www.netcontact.at/API/Translate/auth.json')
-//     .then(res => res.json())
-//     .then(auth => {
-//       let authorized = false;
-//       for (const entry of Object.values(auth)) {
-//         if (entry.name === currentDomain && entry.key === scriptKey) {
-//           console.log(`✅ Authorized: ${entry.name}`);
-//           authorized = true;
-//           break;
-//         }
-//       }
-
-//       if (true) {
-//         initTranslatorWidget(displayMode);
-//       } else {
-//         console.warn('❌ Unauthorized domain or invalid key');
-//       }
-//     })
-//     .catch(err => console.error('Auth check failed:', err));
-initTranslatorWidget(displayMode);
   function initTranslatorWidget(mode) {
-    const container = document.createElement('div');
-    container.className = 'translator-widget';
+  const container = document.getElementById('translator-container');
+  if (!container) return;
 
-    const langs = [
-      { code: 'en', label: 'EN', flag: 'gb.png' },
-      { code: 'de', label: 'DE', flag: 'de.png' },
-      { code: 'nl', label: 'NL', flag: 'nl.png' },
-      { code: 'fr', label: 'FR', flag: 'fr.png' },
-      { code: 'it', label: 'IT', flag: 'it.png' },
-      { code: 'uk', label: 'UA', flag: 'ua.png' }
-    ];
+  container.className = 'translator-widget';
 
+  if (layout === 'select') {
+    const selected = document.createElement('div');
+    selected.className = 'translator-selected';
+    selected.textContent = 'Select language';
+
+    const optionsList = document.createElement('ul');
+    optionsList.className = 'translator-options';
+
+    langs.forEach(lang => {
+      const li = document.createElement('li');
+      li.dataset.lang = lang.code;
+      li.onclick = () => {
+        translateWithGoogle(lang.code);
+        selected.textContent = lang.label;
+        optionsList.style.display = 'none';
+      };
+
+      if (mode === 'flags') {
+        const img = document.createElement('img');
+        img.src = `https://www.netcontact.at/API/Translate/flags/${icon_set}${lang.flag}`;
+        img.alt = lang.label;
+        li.appendChild(img);
+      }
+
+      const label = document.createElement('span');
+      label.textContent = lang.label;
+      li.appendChild(label);
+
+      optionsList.appendChild(li);
+    });
+
+    selected.onclick = () => {
+      optionsList.style.display = optionsList.style.display === 'block' ? 'none' : 'block';
+    };
+
+    container.appendChild(selected);
+    container.appendChild(optionsList);
+  } else {
     langs.forEach(lang => {
       const btn = document.createElement('button');
       btn.className = 'lang-btn';
@@ -53,7 +58,7 @@ initTranslatorWidget(displayMode);
 
       if (mode === 'flags') {
         const img = document.createElement('img');
-        img.src = "https://www.netcontact.at/API/Translate/flags/w40/"+lang.flag;
+        img.src = `https://www.netcontact.at/API/Translate/flags/${icon_set}${lang.flag}`;
         img.alt = lang.label;
         btn.appendChild(img);
       } else {
@@ -62,9 +67,8 @@ initTranslatorWidget(displayMode);
 
       container.appendChild(btn);
     });
-
-    document.body.appendChild(container);
   }
+}
 
   function translateWithGoogle(targetLang) {
     const elements = document.querySelectorAll('p, h1, h2, h3, h4, h5, h6, span, strong, li, a, div');
@@ -81,9 +85,12 @@ initTranslatorWidget(displayMode);
                 node.textContent = data[0][0][0];
               }
             })
-            .catch(err => console.error('Google failed:', err));
+            .catch(err => console.error('Google Translate failed:', err));
         }
       });
     });
   }
+
+  // Initialize widget
+  initTranslatorWidget(displayMode);
 })();
