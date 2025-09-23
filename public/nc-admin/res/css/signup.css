@@ -1,0 +1,150 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f5f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+.container {
+  width: 100%;
+  max-width: 600px;
+}
+
+form {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+form h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+label {
+  display: block;
+  margin: 12px 0 6px;
+  font-size: 14px;
+  color: #555;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="file"],
+select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+fieldset {
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+legend {
+  font-weight: bold;
+  color: #333;
+}
+
+.required {
+  font-weight: bold;
+  color: #444;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #0078d4;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+button:hover {
+  background-color: #005fa3;
+}
+
+a {
+  color: #0078d4;
+  text-decoration: underline;
+}
+
+#password_feedback,
+#matchFeedback,
+#result {
+  font-size: 13px;
+  color: #d00;
+  margin-bottom: 10px;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.file-upload {
+  display: inline-block;
+  width: 100%;
+  padding: 12px;
+  background-color: #0078d4;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  text-align: center;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.file-upload:hover {
+  background-color: #005fa3;
+}
+
+
+.password-wrapper {
+  position: relative;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-85%);
+  cursor: pointer;
+  font-size: 18px;
+  color: #555;
+  user-select: none;
+}
+
+.input-error {
+  border: 2px solid red!important;
+  color: red!important;
+}
+
+.form-warning {
+  color: red;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
