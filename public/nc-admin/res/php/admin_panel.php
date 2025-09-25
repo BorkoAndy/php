@@ -1,4 +1,8 @@
-<?php include_once 'includes/auth.php';
+<?php
+include_once 'includes/auth.php';
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
 
 ?>
 <!DOCTYPE html>
@@ -7,7 +11,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Panel</title>
+  <title>Admin Panel | NC-Werbung</title>
   <link rel="stylesheet" href="../css/admin_panel_styles.css" />
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -25,27 +29,22 @@
       $page = $_GET['page'] ?? 'dashboard';
 
       switch ($page) {
-        case 'categories':
-          include 'pages/categories.php';
+        case 'weather':
+          include 'pages/weather.php';
           break;
-        case 'products':
-          include 'pages/products.php';
+        case 'instawall':
+          include 'pages/instawall.php';
+          break;
+        case 'translate':
+          include 'pages/translate.php';
           break;
         case 'users':
           include 'pages/users.php';
           break;
-        case 'reports':
-          include 'pages/reports.php';
+        case 'icons':
+          include 'pages/icons.php';
           break;
-        case 'bills':
-          include 'pages/bills.php';
-          break;
-        case 'orders':
-          include 'pages/orders.php';
-          break;
-        case 'profile':
-          include 'pages/profile.php';
-          break;
+
           // Add more cases as needed
         default:
           include 'pages/dashboard.php';

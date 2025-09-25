@@ -5,9 +5,9 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 // Fetch counts
-$categoryCount = $pdo->query("SELECT COUNT(*) FROM categories")->fetchColumn();
-$productCount = $pdo->query("SELECT COUNT(DISTINCT ARTIKEL_ARTNR) FROM ARTIKEL")->fetchColumn();
-$userCount = $pdo->query("SELECT COUNT(*) FROM users")->fetchColumn(); // Adjust table name if needed
+// $categoryCount = $pdo->query("SELECT COUNT(*) FROM categories")->fetchColumn();
+// $productCount = $pdo->query("SELECT COUNT(DISTINCT ARTIKEL_ARTNR) FROM ARTIKEL")->fetchColumn();
+// $userCount = $pdo->query("SELECT COUNT(*) FROM users")->fetchColumn(); // Adjust table name if needed
 
 // Fetch latest orders
 //$orders = $pdo->query("SELECT id, product, customer FROM orders ORDER BY created_at DESC LIMIT 5")->fetchAll();
@@ -17,7 +17,7 @@ $userCount = $pdo->query("SELECT COUNT(*) FROM users")->fetchColumn(); // Adjust
 ?>
 
 <!-- Dashboard Cards -->
-<section class="cards d-flex gap-3 mt-4">
+<!-- <section class="cards d-flex gap-3 mt-4">
   <a href="?page=categories" class="card p-3 flex-fill text-center text-decoration-none text-dark">
     <div class="mb-2">
       <i class="bi bi-folder-fill fs-2 text-primary"></i>
@@ -41,10 +41,10 @@ $userCount = $pdo->query("SELECT COUNT(*) FROM users")->fetchColumn(); // Adjust
     <h3>Benutzer</h3>
     <p class="fs-4"><?= $userCount ?></p>
   </a>
-</section>
+</section> -->
 
 <!-- Latest Orders -->
-<section class="orders mt-5">
+<!-- <section class="orders mt-5">
   <h2>Neueste Bestellungen</h2>
   <table class="table table-striped">
     <thead>
@@ -54,7 +54,7 @@ $userCount = $pdo->query("SELECT COUNT(*) FROM users")->fetchColumn(); // Adjust
         <th>Kunde</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody> -->
       <?php //foreach ($orders as $order): ?>
         <!-- <tr>
           <td>#<?= htmlspecialchars($order['id']) ?></td>
@@ -62,14 +62,14 @@ $userCount = $pdo->query("SELECT COUNT(*) FROM users")->fetchColumn(); // Adjust
           <td><?= htmlspecialchars($order['customer']) ?></td>
         </tr> -->
       <?php //endforeach; ?>
-    </tbody>
+    <!-- </tbody>
   </table>
-</section>
+</section> -->
 
 <!-- Notifications -->
 <section class="notifications mt-5">
-  <h2>Benachrichtigungen</h2>
-  <ul class="list-group">
+  <!-- <h2>Benachrichtigungen</h2>
+  <ul class="list-group"> -->
     <?php //foreach ($notifications as $note): ?>
       <!-- <li class="list-group-item">
         <i class="bi bi-bell-fill me-2 text-danger"></i>

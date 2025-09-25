@@ -1,6 +1,6 @@
 <?php
 $host = 'localhost:3306';
-$db   = 'psat';
+$db   = 'nc_admin';
 $user = 'root';
 $pass = '';
 $charset = 'utf8mb4';

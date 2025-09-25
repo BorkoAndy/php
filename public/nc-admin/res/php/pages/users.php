@@ -4,37 +4,32 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+function getEnumValues($table, $column, $pdo)
+{
+    $stmt = $pdo->query("SHOW COLUMNS FROM `$table` LIKE '$column'");
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    preg_match("/^enum\((.*)\)$/", $row['Type'], $matches);
+    $values = str_getcsv($matches[1], ',', "'");
+    return $values;
+}
+$roles = getEnumValues('users', 'role', $pdo);
+$selectedRole = 'Standard'; // Or fetch from user data
+
+
+
 $userRole = $_SESSION['user_role'] ?? '';
-$canEdit = in_array($userRole, ['admin', 'superuser']);
+$canEdit = in_array($userRole, ['Admin', 'SuperUser']);
 
 // Handle Add User
 if ($canEdit && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_user'])) {
     $stmt = $pdo->prepare("
-    INSERT INTO users (
-      user_role, company_name, first_name, last_name, phone_number, email, street, city, postal_code, country,
-      vat_number, password_hash, wants_common_info, wants_sales_info, wants_technical_info, other_info,
-      trade_license_path, terms_accepted, created_at
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
-  ");
+        INSERT INTO users (username, password, role)
+        VALUES (?, ?, ?)
+    ");
     $stmt->execute([
-        $_POST['user_role'],
-        $_POST['company_name'],
-        $_POST['first_name'],
-        $_POST['last_name'],
-        $_POST['phone_number'],
-        $_POST['email'],
-        $_POST['street'],
-        $_POST['city'],
-        $_POST['postal_code'],
-        $_POST['country'],
-        $_POST['vat_number'] ?? null,
+        $_POST['username'],
         password_hash($_POST['password'], PASSWORD_DEFAULT),
-        isset($_POST['wants_common_info']) ? 1 : 0,
-        isset($_POST['wants_sales_info']) ? 1 : 0,
-        isset($_POST['wants_technical_info']) ? 1 : 0,
-        $_POST['other_info'] ?? null,
-        $_POST['trade_license_path'] ?? null,
-        isset($_POST['terms_accepted']) ? 1 : 0
+        $_POST['role'] ?? 'Standard' // default role if not provided
     ]);
     header("Location: ?page=users");
     exit();
@@ -43,18 +38,14 @@ if ($canEdit && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_user'
 // Handle Edit User
 if ($canEdit && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_user'])) {
     $stmt = $pdo->prepare("
-    UPDATE users SET 
-      first_name = ?, last_name = ?, company_name = ?, email = ?, user_role = ?, country = ?
-    WHERE id = ?
-  ");
+        UPDATE users SET username = ?, role = ?
+        WHERE id = ?
+    ");
     $stmt->execute([
-        $_POST['first_name'],
-        $_POST['last_name'],
-        $_POST['company_name'],
-        $_POST['email'],
-        $_POST['user_role'],
-        $_POST['country'],
-        $_POST['user_id']
+        $_POST['username'],
+        $_POST['role'],
+        $_POST['user_id'],
+        password_hash($_POST['password'], PASSWORD_DEFAULT)
     ]);
     header("Location: ?page=users");
     exit();
@@ -70,12 +61,9 @@ if ($canEdit && isset($_GET['delete_user'])) {
 
 // Fetch Users
 $users = $pdo->query("
-  SELECT 
-    id, user_role, company_name, first_name, last_name, phone_number, email, street, city, postal_code, country,
-    vat_number, trade_license_path, wants_common_info, wants_sales_info, wants_technical_info,
-    other_info, terms_accepted, created_at
-  FROM users
-  ORDER BY created_at DESC
+    SELECT id, username, role, created_at
+    FROM users
+    ORDER BY created_at DESC
 ")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
@@ -89,11 +77,9 @@ $users = $pdo->query("
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
+            <th>ID</th>
             <th>Name</th>
-            <th>Unternehmen</th>
-            <th>E-Mail</th>
             <th>Rolle</th>
-            <th>Land</th>
             <th>Registriert</th>
             <?php if ($canEdit): ?><th>Maßnahmen</th><?php endif; ?>
         </tr>
@@ -101,13 +87,12 @@ $users = $pdo->query("
     <tbody>
         <?php foreach ($users as $user): ?>
             <tr>
-                <td><?= htmlspecialchars($user['first_name'] . ' ' . $user['last_name']) ?></td>
-                <td><?= htmlspecialchars($user['company_name']) ?></td>
-                <td><?= htmlspecialchars($user['email']) ?></td>
-                <td><?= htmlspecialchars($user['user_role']) ?></td>
-                <td><?= htmlspecialchars($user['country']) ?></td>
+                <td><?= htmlspecialchars($user['id']) ?></td>
+                <td><?= htmlspecialchars($user['username']) ?></td>
+                <td><?= htmlspecialchars($user['role']) ?></td>
                 <td><?= date('d.m.Y', strtotime($user['created_at'])) ?></td>
                 <?php if ($canEdit): ?>
+                    <?php if($user['role'] === 'SuperUser' && $userRole !== 'SuperUser') continue; ?>                        
                     <td>
                         <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editUserModal<?= $user['id'] ?>">Edit</button>
                         <a href="?page=users&delete_user=<?= $user['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Delete this user?')">Delete</a>
@@ -133,53 +118,10 @@ $users = $pdo->query("
 
                     <!-- Personal Info -->
                     <div class="col-md-6">
-                        <label class="form-label">Vorname</label>
-                        <input type="text" name="first_name" class="form-control" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Nachname</label>
-                        <input type="text" name="last_name" class="form-control" required>
+                        <label class="form-label">Name</label>
+                        <input type="text" name="username" class="form-control" required>
                     </div>
 
-                    <!-- Company Info -->
-                    <div class="col-md-6">
-                        <label class="form-label">Firmenname</label>
-                        <input type="text" name="company_name" class="form-control">
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Umsatzsteuer-Identifikationsnummer(VAT)</label>
-                        <input type="text" name="vat_number" class="form-control">
-                    </div>
-
-                    <!-- Contact Info -->
-                    <div class="col-md-6">
-                        <label class="form-label">E-Mail</label>
-                        <input type="email" name="email" class="form-control" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Telefonnummer</label>
-                        <input type="text" name="phone_number" class="form-control">
-                    </div>
-
-                    <!-- Address -->
-                    <div class="col-md-6">
-                        <label class="form-label">Straße</label>
-                        <input type="text" name="street" class="form-control">
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Stadt</label>
-                        <input type="text" name="city" class="form-control">
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Postleitzahl</label>
-                        <input type="text" name="postal_code" class="form-control">
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Land</label>
-                        <select name="country" id="countrySelect" class="form-select" required>
-                            <option value="<?= htmlspecialchars($user['country'] ?? '') ?>" selected>Österreich</option>
-                        </select>
-                    </div>
 
                     <!-- Account Info -->
                     <div class="col-md-6">
@@ -188,53 +130,23 @@ $users = $pdo->query("
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Benutzerrolle</label>
-                        <select name="user_role" class="form-select">
+                        <?php
+                        echo '<select name="role" class="form-select">';
+                        foreach ($roles as $role) {
+                            $selected = ($role === $selectedRole) ? 'selected' : '';
+                            echo "<option value=\"$role\" $selected>" . ucfirst($role) . "</option>";
+                        }
+                        echo '</select>';
+                        ?>
+                        <!-- <select name="user_role" class="form-select">
                             <option value="regular" selected>Regular</option>
                             <option value="premium">Premium</option>
                             <option value="vip">VIP</option>
                             <option value="admin">Admin</option>
                             <option value="superuser">Superuser</option>
-                        </select>
-                    </div>
-
-                    <!-- Preferences -->
-                    <div class="col-md-12">
-                        <label class="form-label">Einstellungen</label><br>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="wants_common_info" value="1">
-                            <label class="form-check-label">Allgemeine Informationen</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="wants_sales_info" value="1">
-                            <label class="form-check-label">Verkaufsinformationen</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="wants_technical_info" value="1">
-                            <label class="form-check-label">Technische Informationen</label>
-                        </div>
-                    </div>
-
-                    <!-- Other Info -->
-                    <div class="col-md-12">
-                        <label class="form-label">Weitere Informationen</label>
-                        <textarea name="other_info" class="form-control" rows="3"></textarea>
-                    </div>
-
-                    <!-- Trade License -->
-                    <div class="col-md-12">
-                        <label class="form-label">Gewerbescheinpfad</label>
-                        <input type="text" name="trade_license_path" class="form-control">
-                    </div>
-
-                    <!-- Terms -->
-                    <div class="col-md-12 mt-2">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="terms_accepted" value="1" required>
-                            <label class="form-check-label">Ich akzeptiere die Allgemeinen Geschäftsbedingungen.</label>
-                        </div>
+                        </select> -->
                     </div>
                 </div>
-
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Erstellen</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
@@ -251,7 +163,7 @@ $users = $pdo->query("
             <div class="modal-dialog modal-lg">
                 <form method="POST" class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Benutzer bearbeiten: <?= htmlspecialchars($user['first_name'] . ' ' . $user['last_name']) ?></h5>
+                        <h5 class="modal-title">Benutzer bearbeiten: <?= htmlspecialchars($user['username']) ?></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
 
@@ -261,102 +173,27 @@ $users = $pdo->query("
 
                         <!-- Personal Info -->
                         <div class="col-md-6">
-                            <label class="form-label">Vorname</label>
-                            <input type="text" name="first_name" class="form-control" value="<?= htmlspecialchars($user['first_name']) ?>" required>
+                            <label class="form-label">Name</label>
+                            <input type="text" name="username" class="form-control" value="<?= htmlspecialchars($user['username']) ?>" required>
                         </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Nachname</label>
-                            <input type="text" name="last_name" class="form-control" value="<?= htmlspecialchars($user['last_name']) ?>" required>
-                        </div>
-
-                        <!-- Company Info -->
-                        <div class="col-md-6">
-                            <label class="form-label">Firmenname</label>
-                            <input type="text" name="company_name" class="form-control" value="<?= htmlspecialchars($user['company_name'] ?? '') ?>">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Umsatzsteuer-Identifikationsnummer(VAT)</label>
-                            <input type="text" name="vat_number" class="form-control" value="<?= htmlspecialchars($user['vat_number'] ?? '') ?>">
-                        </div>
-
-                        <!-- Contact Info -->
-                        <div class="col-md-6">
-                            <label class="form-label">E-Mail</label>
-                            <input type="email" name="email" class="form-control" value="<?= htmlspecialchars($user['email'] ?? '') ?>" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Telefonnummer</label>
-                            <input type="text" name="phone_number" class="form-control" value="<?= htmlspecialchars($user['phone_number'] ?? '') ?>
-">
-                        </div>
-
-                        <!-- Address -->
-                        <div class="col-md-6">
-                            <label class="form-label">Straße</label>
-                            <input type="text" name="street" class="form-control" value="<?= htmlspecialchars($user['street'] ?? '') ?>">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Stadt</label>
-                            <input type="text" name="city" class="form-control" value="<?= htmlspecialchars($user['city'] ?? '') ?>">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Postleitzahl</label>
-                            <input type="text" name="postal_code" class="form-control" value="<?= htmlspecialchars($user['postal_code'] ?? '') ?>">
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="form-label">Land</label>
-                            <select name="country" id="countrySelect" class="form-select" required>
-                                <option value="<?= htmlspecialchars($user['country'] ?? '') ?>" selected>Österreich</option>
-                            </select>
-                        </div>
-
-
                         <!-- Role -->
                         <div class="col-md-6">
                             <label class="form-label">Benutzerrolle</label>
-                            <select name="user_role" class="form-select">
-                                <?php
-                                $roles = ['regular', 'premium', 'vip', 'admin', 'superuser'];
-                                foreach ($roles as $role) {
-                                    $selected = ($user['user_role'] === $role) ? 'selected' : '';
-                                    echo "<option value=\"$role\" $selected>$role</option>";
-                                }
-                                ?>
-                            </select>
+
+                            <?php
+                            echo '<select name="role" class="form-select">';
+                            foreach ($roles as $role) {
+                                $selected = ($role === $selectedRole) ? 'selected' : '';
+                                echo "<option value=\"$role\" $selected>" . ucfirst($role) . "</option>";
+                            }
+                            echo '</select>';
+                            ?>
+
                         </div>
-
-                        <!-- Preferences -->
-                        <div class="col-md-12">
-                            <label class="form-label">Einstellungen</label><br>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" name="wants_common_info" value="1" <?= ($user['wants_common_info'] ?? 0) ? 'checked' : '' ?>>
-                                <label class="form-check-label">Allgemeine Informationen</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" name="wants_sales_info" value="1" <?= ($user['wants_sales_info'] ?? 0) ? 'checked' : '' ?>>
-                                <label class="form-check-label">Verkaufsinformationen</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" name="wants_technical_info" value="1" <?= ($user['wants_technical_info'] ?? 0) ? 'checked' : '' ?>>
-                                <label class="form-check-label">Technische Informationen</label>
-                            </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Passwort</label>
+                            <input type="password" name="password" class="form-control" required>
                         </div>
-
-                        <!-- Other Info -->
-                        <div class="col-md-12">
-                            <label class="form-label">Weitere Informationen</label>
-                            <textarea name="other_info" class="form-control" rows="3"><?= htmlspecialchars($user['other_info'] ?? '') ?></textarea>
-                        </div>
-
-                        <!-- Trade License -->
-                        <div class="col-md-12">
-                            <label class="form-label">Gewerbescheinpfad</label>
-                            <input type="text" name="trade_license_path" class="form-control" value="<?= htmlspecialchars($user['trade_license_path'] ?? '') ?>">
-                        </div>
-
-
-
                     </div>
 
                     <div class="modal-footer">
